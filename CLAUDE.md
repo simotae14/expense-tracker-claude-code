@@ -24,10 +24,16 @@ npm run lint
 
 ## Architecture
 
-Single-file React app (`src/App.jsx`) — no router, no state management library, no backend. All state lives in one `useState` hook holding a `transactions` array. Derived values (totalIncome, totalExpenses, balance, filteredTransactions) are computed inline on every render.
+React app with no router, no state management library, no backend. The `transactions` array is the single source of truth, owned by `App.jsx` and passed down as props.
 
-Each transaction has: `{ id, description, amount, type: "income"|"expense", category, date }`. Note: `amount` is stored as a string — the reduce sums use string concatenation, not arithmetic, which is a latent bug.
+**Component tree:**
+- `App` — holds `transactions` state, passes it down; renders the three child components
+- `Summary` — receives `transactions`, computes and displays totalIncome, totalExpenses, balance
+- `TransactionForm` — owns its own form state (description, amount, type, category); calls `onAdd(transaction)` prop on submit
+- `TransactionList` — receives `transactions`, owns filter state (filterType, filterCategory) locally
 
-Categories are a hardcoded array in `App.jsx`: `["food", "housing", "utilities", "transport", "entertainment", "salary", "other"]`.
+Each transaction has: `{ id, description, amount: number, type: "income"|"expense", category, date }`.
+
+`categories` is a hardcoded array duplicated in `TransactionForm` and `TransactionList`: `["food", "housing", "utilities", "transport", "entertainment", "salary", "other"]`.
 
 No persistence — state resets on page reload.
