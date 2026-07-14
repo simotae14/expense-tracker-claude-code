@@ -1,4 +1,4 @@
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, LabelList } from 'recharts';
 
 const CATEGORY_COLORS = {
   food: "#2a78d6",
@@ -18,40 +18,39 @@ function CategoryChart({ transactions }) {
       return acc;
     }, {});
 
-  const total = Object.values(totalsByCategory).reduce((sum, v) => sum + v, 0);
-
   const data = Object.entries(totalsByCategory)
-    .map(([category, value]) => ({ category, value }))
-    .sort((a, b) => b.value - a.value);
+    .map(([category, total]) => ({ category, total }))
+    .sort((a, b) => b.total - a.total);
 
   if (data.length === 0) {
     return null;
   }
 
-  const renderLabel = ({ value }) => `${((value / total) * 100).toFixed(0)}%`;
-
   return (
     <div className="category-chart">
       <h2>Spending by Category</h2>
       <ResponsiveContainer width="100%" height={320}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="category"
-            cx="50%"
-            cy="50%"
-            outerRadius={110}
-            label={renderLabel}
-            labelLine={false}
-          >
+        <BarChart
+          data={data}
+          margin={{ top: 24, right: 16, left: 0, bottom: 8 }}
+        >
+          <CartesianGrid vertical={false} stroke="#e1e0d9" />
+          <XAxis
+            type="category"
+            dataKey="category"
+            tick={{ fontSize: 13, fill: "#0b0b0b" }}
+            axisLine={{ stroke: "#c3c2b7" }}
+            tickLine={false}
+          />
+          <YAxis type="number" tick={{ fontSize: 12, fill: "#898781" }} axisLine={{ stroke: "#c3c2b7" }} tickLine={false} />
+          <Tooltip formatter={(value) => [`$${value}`, "Spent"]} />
+          <Bar dataKey="total" radius={[4, 4, 0, 0]}>
             {data.map((entry) => (
               <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] || "#898781"} />
             ))}
-          </Pie>
-          <Tooltip formatter={(value) => [`$${value}`, "Spent"]} />
-          <Legend verticalAlign="bottom" height={36} />
-        </PieChart>
+            <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fill="#0b0b0b" fontSize={12} />
+          </Bar>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
