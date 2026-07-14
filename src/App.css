@@ -319,3 +319,18 @@ td.expense-amount {
   border-color: var(--red-alert);
   color: var(--red-alert);
 }
+
+.delete-confirm {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.delete-btn.confirm {
+  border-color: var(--red-alert);
+  color: var(--red-alert);
+}
+
+.delete-btn.confirm:hover {
+  background: var(--red-alert);
+  color: var(--bg);
+}

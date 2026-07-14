@@ -1,14 +1,5 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, LabelList } from 'recharts';
-
-const CATEGORY_COLORS = {
-  food: "#3987e5",
-  housing: "#199e70",
-  utilities: "#c98500",
-  transport: "#008300",
-  entertainment: "#9085e9",
-  salary: "#e66767",
-  other: "#d95926",
-};
+import { categoryColors } from './categories'
 
 function CategoryChart({ transactions }) {
   const totalsByCategory = transactions
@@ -56,7 +47,7 @@ function CategoryChart({ transactions }) {
           />
           <Bar dataKey="total" radius={[4, 4, 0, 0]}>
             {data.map((entry) => (
-              <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] || "#7c8a83"} />
+              <Cell key={entry.category} fill={categoryColors[entry.category] || "#7c8a83"} />
             ))}
             <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fill="#e7ede9" fontSize={12} fontFamily="JetBrains Mono, monospace" />
           </Bar>

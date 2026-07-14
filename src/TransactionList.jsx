@@ -1,10 +1,10 @@
 import { useState } from 'react'
-
-const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
+import { categories } from './categories'
 
 function TransactionList({ transactions, onDelete }) {
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
   let filtered = transactions;
   if (filterType !== "all") {
@@ -51,9 +51,26 @@ function TransactionList({ transactions, onDelete }) {
                 {t.type === "income" ? "+" : "-"}${t.amount}
               </td>
               <td>
-                <button className="delete-btn" onClick={() => {
-                  if (window.confirm('Delete this transaction?')) onDelete(t.id);
-                }}>Delete</button>
+                {pendingDeleteId === t.id ? (
+                  <span className="delete-confirm">
+                    <button
+                      className="delete-btn confirm"
+                      onClick={() => {
+                        onDelete(t.id);
+                        setPendingDeleteId(null);
+                      }}
+                    >
+                      Confirm
+                    </button>
+                    <button className="delete-btn cancel" onClick={() => setPendingDeleteId(null)}>
+                      Cancel
+                    </button>
+                  </span>
+                ) : (
+                  <button className="delete-btn" onClick={() => setPendingDeleteId(t.id)}>
+                    Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}
