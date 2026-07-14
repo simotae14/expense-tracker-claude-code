@@ -16,7 +16,7 @@ function TransactionList({ transactions, onDelete }) {
 
   return (
     <div className="transactions">
-      <h2>Transactions</h2>
+      <p className="section-label">transactions</p>
       <div className="filters">
         <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
           <option value="all">All Types</option>

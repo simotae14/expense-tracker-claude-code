@@ -1,13 +1,13 @@
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Cell, LabelList } from 'recharts';
 
 const CATEGORY_COLORS = {
-  food: "#b8842f",
-  housing: "#1f6fb0",
-  utilities: "#c9691f",
-  transport: "#5a4a8f",
-  entertainment: "#1f8f78",
-  salary: "#af3b3b",
-  other: "#2f7a4f",
+  food: "#3987e5",
+  housing: "#199e70",
+  utilities: "#c98500",
+  transport: "#008300",
+  entertainment: "#9085e9",
+  salary: "#e66767",
+  other: "#d95926",
 };
 
 function CategoryChart({ transactions }) {
@@ -28,31 +28,37 @@ function CategoryChart({ transactions }) {
 
   return (
     <div className="category-chart">
-      <h2>Spending by Category</h2>
+      <p className="section-label">spend_by_category</p>
       <ResponsiveContainer width="100%" height={320}>
         <BarChart
           data={data}
           margin={{ top: 24, right: 16, left: 0, bottom: 8 }}
         >
-          <CartesianGrid vertical={false} stroke="#e4ddcc" />
+          <CartesianGrid vertical={false} stroke="#262f2a" />
           <XAxis
             type="category"
             dataKey="category"
-            tick={{ fontSize: 13, fill: "#1b3a2f", fontFamily: "Inter, sans-serif" }}
-            axisLine={{ stroke: "#c9bfa5" }}
+            tick={{ fontSize: 12, fill: "#e7ede9", fontFamily: "JetBrains Mono, monospace" }}
+            axisLine={{ stroke: "#384039" }}
             tickLine={false}
           />
-          <YAxis type="number" tick={{ fontSize: 12, fill: "#6b8577", fontFamily: "Inter, sans-serif" }} axisLine={{ stroke: "#c9bfa5" }} tickLine={false} />
+          <YAxis
+            type="number"
+            tick={{ fontSize: 11, fill: "#7c8a83", fontFamily: "JetBrains Mono, monospace" }}
+            axisLine={{ stroke: "#384039" }}
+            tickLine={false}
+          />
           <Tooltip
             formatter={(value) => [`$${value}`, "Spent"]}
-            contentStyle={{ background: "#ffffff", border: "1px solid #e4ddcc", borderRadius: 8, fontFamily: "Inter, sans-serif", fontSize: 13 }}
-            cursor={{ fill: "rgba(184, 132, 47, 0.06)" }}
+            contentStyle={{ background: "#191d1a", border: "1px solid #384039", borderRadius: 4, fontFamily: "JetBrains Mono, monospace", fontSize: 12 }}
+            labelStyle={{ color: "#e7ede9" }}
+            cursor={{ fill: "rgba(166, 226, 46, 0.06)" }}
           />
           <Bar dataKey="total" radius={[4, 4, 0, 0]}>
             {data.map((entry) => (
-              <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] || "#898781"} />
+              <Cell key={entry.category} fill={CATEGORY_COLORS[entry.category] || "#7c8a83"} />
             ))}
-            <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fill="#1b3a2f" fontSize={12} fontFamily="IBM Plex Mono, monospace" />
+            <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fill="#e7ede9" fontSize={12} fontFamily="JetBrains Mono, monospace" />
           </Bar>
         </BarChart>
       </ResponsiveContainer>
