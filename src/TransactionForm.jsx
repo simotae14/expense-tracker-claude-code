@@ -1,21 +1,21 @@
 import { useState } from 'react'
-
-const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
+import { categories } from './categories'
 
 function TransactionForm({ onAdd }) {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
-  const [category, setCategory] = useState("food");
+  const [category, setCategory] = useState(categories[0]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!description || !amount) return;
+    const parsedAmount = parseFloat(amount);
+    if (!description || !amount || !(parsedAmount > 0)) return;
 
     onAdd({
-      id: Date.now(),
+      id: crypto.randomUUID(),
       description,
-      amount,
+      amount: parsedAmount,
       type,
       category,
       date: new Date().toISOString().split('T')[0],
@@ -24,12 +24,12 @@ function TransactionForm({ onAdd }) {
     setDescription("");
     setAmount("");
     setType("expense");
-    setCategory("food");
+    setCategory(categories[0]);
   };
 
   return (
     <div className="add-transaction">
-      <h2>Add Transaction</h2>
+      <p className="section-label">add_transaction</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -41,6 +41,8 @@ function TransactionForm({ onAdd }) {
           type="number"
           placeholder="Amount"
           value={amount}
+          min="0.01"
+          step="0.01"
           onChange={(e) => setAmount(e.target.value)}
         />
         <select value={type} onChange={(e) => setType(e.target.value)}>

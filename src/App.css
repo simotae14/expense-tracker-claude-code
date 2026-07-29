@@ -1,64 +1,190 @@
+:root {
+  --bg: #0b0d0c;
+  --surface: #141715;
+  --surface-raised: #191d1a;
+  --border: #262f2a;
+  --border-strong: #384039;
+  --text: #e7ede9;
+  --muted: #7c8a83;
+  --dim: #4d5851;
+  --lime: #a6e22e;
+  --amber: #e2a23c;
+  --red-alert: #e2543c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
 .app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 760px;
+  margin: 40px auto;
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* --- terminal window chrome --- */
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--border);
+}
+
+.title-bar-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.title-bar-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.title-bar-path {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.app-body {
+  padding: 24px 28px 28px;
 }
 
 h1 {
-  margin-bottom: 4px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--lime);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
 }
 
 .subtitle {
-  margin-bottom: 20px;
-  color: #666;
+  margin: 6px 0 24px;
+  color: var(--muted);
+  font-size: 13px;
 }
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--muted);
+}
+
+.section-label::before {
+  content: ">";
+  color: var(--lime);
+}
+
+.section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  margin-left: 4px;
+}
+
+/* --- summary --- */
 
 .summary {
   display: flex;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .summary-card {
   flex: 1;
-  border: 1px solid #ddd;
-  padding: 14px;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  background: var(--surface-raised);
 }
 
 .summary-card h3 {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 4px;
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .income-amount {
-  color: green;
-  font-size: 20px;
-  font-weight: bold;
+  color: var(--lime);
 }
 
 .expense-amount {
-  color: red;
-  font-size: 20px;
-  font-weight: bold;
+  color: var(--amber);
 }
 
 .balance-amount {
-  font-size: 20px;
-  font-weight: bold;
+  color: var(--text);
 }
+
+/* --- category chart --- */
+
+.category-chart {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px 6px;
+  margin-bottom: 28px;
+  background: var(--surface-raised);
+}
+
+/* --- add transaction --- */
 
 .add-transaction {
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin-bottom: 24px;
-  background: #fff;
-}
-
-.add-transaction h2 {
-  font-size: 16px;
-  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  background: var(--surface-raised);
 }
 
 form {
@@ -69,9 +195,24 @@ form {
 
 form input,
 form select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  padding: 9px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+form input::placeholder {
+  color: var(--dim);
+}
+
+form input:focus,
+form select:focus,
+button:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 1px;
 }
 
 form input[type="text"] {
@@ -87,33 +228,42 @@ form select {
 }
 
 form button {
-  padding: 8px 20px;
-  background: #333;
-  color: #fff;
-  border: none;
+  padding: 9px 20px;
+  border: 1px solid var(--lime);
+  border-radius: 4px;
+  background: var(--lime);
+  color: #0b0d0c;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  font-size: 14px;
 }
+
+form button:hover {
+  background: #b8f23f;
+}
+
+/* --- transactions --- */
 
 .transactions {
-  margin-bottom: 24px;
-}
-
-.transactions h2 {
-  font-size: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 
 .filters {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .filters select {
-  padding: 6px;
-  border: 1px solid #ccc;
-  font-size: 13px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
 }
 
 table {
@@ -122,27 +272,65 @@ table {
 }
 
 thead {
-  background: #f5f5f5;
+  background: var(--surface-raised);
 }
 
 th, td {
-  padding: 10px;
+  padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
-  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
 }
 
 th {
-  font-size: 12px;
-  color: #888;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
   text-transform: uppercase;
 }
 
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+tbody tr:hover {
+  background: rgba(166, 226, 46, 0.05);
+}
+
+td.income-amount,
+td.expense-amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .delete-btn {
-  padding: 4px 10px;
-  background: #eee;
-  border: 1px solid #ccc;
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
-  color: #333;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.delete-btn:hover {
+  border-color: var(--red-alert);
+  color: var(--red-alert);
+}
+
+.delete-confirm {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.delete-btn.confirm {
+  border-color: var(--red-alert);
+  color: var(--red-alert);
+}
+
+.delete-btn.confirm:hover {
+  background: var(--red-alert);
+  color: var(--bg);
 }
